@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BackofficeModule } from './backoffice/backoffice.module';
-
 @Module({
   imports: [
     MongooseModule.forRoot(
@@ -12,4 +11,4 @@ import { BackofficeModule } from './backoffice/backoffice.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
