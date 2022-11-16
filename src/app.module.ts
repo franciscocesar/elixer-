@@ -11,4 +11,4 @@ import { BackofficeModule } from './backoffice/backoffice.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
