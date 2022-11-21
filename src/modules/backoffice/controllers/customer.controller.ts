@@ -10,11 +10,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator-interceptor';
+import { CreateCreditCartContract } from '../contracts/customer/create-credit-cart.contracts';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contracts';
 import { UpdateCustomerContract } from '../contracts/customer/update-customer.contracts';
 import { CreateCustomerDTO } from '../dtos/customer/create-customer-dto';
 import { QueryDto } from '../dtos/customer/quert-dtos';
 import { UpdateCustomerDTO } from '../dtos/customer/update-customer-dto';
+import { CreditCard } from '../models/credit-card.model';
 import { Customer } from '../models/customer.model';
 import { Result } from '../models/result.model';
 import { User } from '../models/user.model';
@@ -106,6 +108,22 @@ export class CustomerController {
     } catch (error) {
       throw new HttpException(
         new Result('Não foi possível alterar o usuário', false, null, error),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+  @Put(':document/credit-cards')
+  @UseInterceptors(new ValidatorInterceptor(new CreateCreditCartContract()))
+  async createCreditCard(
+    @Param('document') document,
+    @Body() model: CreditCard,
+  ) {
+    try {
+      await this.customerService.saveOrUpdateCreditCart(document, model);
+      return new Result(null, true, model, null);
+    } catch (error) {
+      throw new HttpException(
+        new Result('Não foi adicionar cartão de crédito', false, null, error),
         HttpStatus.BAD_REQUEST,
       );
     }
