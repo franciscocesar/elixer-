@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { QueryDto } from '../dtos/customer/quert-dtos';
 import { UpdateCustomerDTO } from '../dtos/customer/update-customer-dto';
 import { Address } from '../models/address.model';
+import { CreditCard } from '../models/credit-card.model';
 import { Customer } from '../models/customer.model';
 import { Pet } from '../models/pet.model';
 import { Result } from '../models/result.model';
@@ -45,5 +46,22 @@ export class CustomerService {
       })
       .sort(model.sort)
       .exec();
+  }
+
+  async saveOrUpdateCreditCart(
+    document: string,
+    data: CreditCard,
+  ): Promise<any> {
+    const options = { upsert: true };
+
+    return await this.model.findOneAndUpdate(
+      { document },
+      {
+        $set: {
+          card: data,
+        },
+      },
+      options,
+    );
   }
 }
